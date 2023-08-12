@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Define la página de error personalizada con ruta relativa
+ErrorDocument 404 /Blog/pages/404.php
+
+# Redirige las peticiones con extensión .php a la versión sin extensión
+RewriteCond %{THE_REQUEST} ^\w+\ /(.*)\.php(\?.*)?\ HTTP/
+RewriteRule ^ http://%{HTTP_HOST}/%1 [R=301]
+
+# Añade la extensión .php internamente
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule .* $0.php
