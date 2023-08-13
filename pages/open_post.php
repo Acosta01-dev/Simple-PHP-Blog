@@ -75,7 +75,7 @@ if (isset($_GET['post_id'])) {
                     if ($post) { ?>
                         <div class="blog-post">
                             <div class="d-flex justify-content-center">
-                                <img class="p-5" src="https://picsum.photos/850/350" alt="Blog post image">
+                                <img class="p-5 img-fluid " style="height: 25rem;"src="../assets/images/uploads/<?= $post['image']; ?>" alt="Blog post image">
                             </div>
                             <hr class="my-3">
                             <div class="blog-post-content">

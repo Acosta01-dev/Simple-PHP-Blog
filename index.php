@@ -130,7 +130,7 @@ $connection = null;
                 if ($featuredPost) {
                     ?>
                     <div class="card mb-4">
-                        <a href="./pages/open_post.php?post_id=<?= $featuredPost['post_id']; ?> "  style="height: 17rem;">
+                        <a href="./pages/open_post?post_id=<?= $featuredPost['post_id']; ?> "  style="height: 17rem;">
                             <div class="aspect-ratio-container">
                                 <img class="aspect-ratio-content"
                                     src="./assets/images/uploads/<?= $featuredPost['image']; ?>"
@@ -151,7 +151,7 @@ $connection = null;
                                 <?= $featuredPost['description']; ?>
                             </p>
                             <a class="btn btn-primary"
-                                href="./pages/open_post.php?post_id=<?= $featuredPost['post_id']; ?>">Read more
+                                href="../pages/open_post?post_id=<?= $featuredPost['post_id']; ?>">Read more
                                 →</a>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ $connection = null;
                                         <?= $blogPosts[$i]['description']; ?>
                                     </p>
                                     <a class="btn btn-primary"
-                                        href="./pages/open_post.php?post_id=<?= $blogPosts[$i]['post_id'] ?>">Read more
+                                        href="./pages/open_post?post_id=<?= $blogPosts[$i]['post_id'] ?>">Read more
                                         →</a>
                                 </div>
                             </div>
