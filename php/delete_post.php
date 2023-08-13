@@ -1,5 +1,15 @@
 <?php
+
+session_start();
+
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+if (!$user_id) {
+    header('location:../index');
+}
+
 require_once '../php/db_connect.php';
+
 
 if (isset($_GET['post_id'])) {
     $post_id = intval($_GET['post_id']);

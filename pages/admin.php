@@ -2,7 +2,11 @@
 session_start();
 require_once '../php/db_connect.php';
 
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+if (!$user_id) {
+    header('location:../index');
+}
 ?>
 
 <!doctype html>
@@ -318,18 +322,15 @@ $user_id = $_SESSION['user_id'];
                   Go Back
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
-                  <svg class="bi">
-                    <use xlink:href="#house-fill" />
-                  </svg>
-                  List All Posts
-                </a>
-              </li>
+
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="../pages/publish">
-                  <svg class="bi">
-                    <use xlink:href="#file-earmark" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-file-earmark-post" viewBox="0 0 16 16">
+                    <path
+                      d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                    <path
+                      d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5z" />
                   </svg>
                   Create new Post
                 </a>
@@ -338,18 +339,15 @@ $user_id = $_SESSION['user_id'];
               <hr class="my-3">
 
               <ul class="nav flex-column mb-auto">
+
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi">
-                      <use xlink:href="#gear-wide-connected" />
-                    </svg>
-                    Settings
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi">
-                      <use xlink:href="#door-closed" />
+                  <a class="nav-link d-flex align-items-center gap-2" href="../php/logout_user">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
+                      <path fill-rule="evenodd"
+                        d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
                     </svg>
                     Sign out
                   </a>
@@ -396,12 +394,14 @@ $user_id = $_SESSION['user_id'];
               }
               ?>
               <tr>
-                <th scope='col'># <?php echo $_SESSION['user_id']; ?></th>
+                <th scope='col'>#
+                  <?php echo $_SESSION['user_id']; ?>
+                </th>
                 <th scope='col'>title</th>
                 <th scope='col'>description</th>
                 <th scope='col'>featured</th>
                 <th scope='col'>category</th>
-               
+
                 <th scope='col'>edit</th>
                 <th scope='col'>delete</th>
               </tr>
@@ -420,8 +420,21 @@ $user_id = $_SESSION['user_id'];
                 echo "<td>" . $row['featured'] . "</td>";
                 echo "<td>" . $row['category'] . "</td>";
                 ?>
-                <td> <a href='../php/edit_post?post_id=<?php echo $row['post_id'] ?>'>&#x270F;</a> </td>
-                <td><a id="delete" href="../php/delete_post?post_id=<?php echo $row["post_id"] ?>"> &#x274c;</a></td>
+                <td> <a style="color: green; text-decoration: none;"
+                    href='../php/edit_post?post_id=<?php echo $row['post_id'] ?>'><svg xmlns="http://www.w3.org/2000/svg"
+                      width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <path
+                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                      <path fill-rule="evenodd"
+                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                    </svg></a> </td>
+                <td><a style="color: red; text-decoration: none;" id="delete"
+                    href="../php/delete_post?post_id=<?php echo $row["post_id"] ?>"> <svg
+                      xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-trash-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                    </svg></a></td>
                 <?php
                 echo "</tr>";
               }

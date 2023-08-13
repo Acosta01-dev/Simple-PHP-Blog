@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once "./php/db_connect.php";
 
 try {
@@ -94,9 +96,18 @@ $connection = null;
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#">Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./pages/login">Log In</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!"></a></li>
+                    <?php
+                    if ($_SESSION['user_id']) {
+                        ?>
+                        <li class="nav-item"><a class="nav-link" href="./pages/admin">Admin</a></li>
+                        <?php
+                    } else {
+                        ?>
+                        <li class="nav-item"><a class="nav-link" href="./pages/register">Sign Up</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./pages/login">Log In</a></li>
+                        <?php
+                    }
+                    ?>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
                 </ul>
             </div>
@@ -130,11 +141,11 @@ $connection = null;
                 if ($featuredPost) {
                     ?>
                     <div class="card mb-4">
-                        <a href="./pages/open_post?post_id=<?= $featuredPost['post_id']; ?> "  style="height: 17rem;">
+                        <a href="./pages/post?post_id=<?= $featuredPost['post_id']; ?> " style="height: 17rem;">
                             <div class="aspect-ratio-container">
                                 <img class="aspect-ratio-content"
                                     src="./assets/images/uploads/<?= $featuredPost['image']; ?>"
-                                    alt="<?= $featuredPost['image']; ?>"  style="height: 17rem;" />
+                                    alt="<?= $featuredPost['image']; ?>" style="height: 17rem;" />
                             </div>
                         </a>
 
@@ -151,7 +162,7 @@ $connection = null;
                                 <?= $featuredPost['description']; ?>
                             </p>
                             <a class="btn btn-primary"
-                                href="../pages/open_post?post_id=<?= $featuredPost['post_id']; ?>">Read more
+                                href="../pages/post?post_id=<?= $featuredPost['post_id']; ?>">Read more
                                 →</a>
                         </div>
                     </div>
@@ -198,7 +209,7 @@ $connection = null;
                                         <?= $blogPosts[$i]['description']; ?>
                                     </p>
                                     <a class="btn btn-primary"
-                                        href="./pages/open_post?post_id=<?= $blogPosts[$i]['post_id'] ?>">Read more
+                                        href="./pages/post?post_id=<?= $blogPosts[$i]['post_id'] ?>">Read more
                                         →</a>
                                 </div>
                             </div>

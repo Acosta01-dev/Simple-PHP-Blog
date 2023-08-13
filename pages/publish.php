@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+if (!$user_id) {
+    header('location:../index');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

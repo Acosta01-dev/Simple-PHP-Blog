@@ -1,8 +1,14 @@
 <?php
 session_start();
+
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+if (!$user_id) {
+    header('location:../index');
+}
+
 require_once "../php/db_connect.php";
 
-$user_id = $_SESSION['user_id'];
 
 // Validate and sanitize post_id
 if (isset($_GET['post_id']) && is_numeric($_GET['post_id'])) {

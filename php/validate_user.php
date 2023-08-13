@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once "../php/db_connect.php";
-
+    
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST['user']; 
 
