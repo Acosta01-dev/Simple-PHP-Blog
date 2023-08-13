@@ -9,12 +9,11 @@ if (!$user_id) {
 
 require_once "../php/db_connect.php";
 
-
 // Validate and sanitize post_id
 if (isset($_GET['post_id']) && is_numeric($_GET['post_id'])) {
     $postId = $_GET['post_id'];
 } else {
-    // Handle the error
+    // Handle the error : TODO
 }
 
 // Check if the form is submitted
@@ -37,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (in_array($imageFileType, $allowedExtensions) && $_FILES["image"]["size"] > 0) {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
                 $imageName = basename($_FILES["image"]["name"]);
-                
+
                 $sql = "UPDATE post SET image = :image WHERE post_id = :post_id AND user_id = :user_id";
                 $stmt = $connection->prepare($sql);
                 $stmt->bindValue(':post_id', $postId, PDO::PARAM_INT);
@@ -46,9 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $stmt->execute();
             } else {
                 // Handle the error
+                echo "Error uploading the image.";
             }
         } else {
             // Handle the error
+            echo "Only JPG, JPEG, PNG, and GIF files are allowed.";
         }
     }
 
@@ -78,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         // Error occurred while updating the blog post
         // Handle the error (e.g., log, display a user-friendly message)
-        $error = "Error updating the blog post.";
+        echo "Error updating the blog post.";
     }
 }
 
@@ -92,7 +93,6 @@ $stmt->execute();
 $blogPost = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

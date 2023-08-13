@@ -10,7 +10,6 @@ if (!$user_id) {
 
 require_once '../php/db_connect.php';
 
-
 if (isset($_GET['post_id'])) {
     $post_id = intval($_GET['post_id']);
 
@@ -25,7 +24,7 @@ if (isset($_GET['post_id'])) {
         header('location: ../pages/admin?deleted');
 
     } catch (PDOException $e) {
-        echo "Error al borrados datos: " . $e->getMessage();
+        echo "Error deleting data: " . $e->getMessage();
     }
 } else {
     echo "No post_id parameter provided.";

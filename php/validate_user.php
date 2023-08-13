@@ -23,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 header('Location: ../pages/admin');
                 exit();
             } else {
-                echo "Contraseña incorrecta. Inténtalo de nuevo.";
+                echo "Incorrect password. Please try again.";
             }
         } else {
-            echo "No se encontró ningún usuario con el nombre $username";
+            echo "No user found with the name $username";
         }
     } catch (PDOException $e) {
-        echo "Error de la base de datos: " . $e->getMessage();
+        echo "Database error: " . $e->getMessage();
     }
 }
 ?>

@@ -53,13 +53,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 header("location: ../pages/admin?added");
                 exit(); // Terminate script execution after redirect
             } catch (PDOException $e) {
-                echo "Error al ingresar datos: " . $e->getMessage();
+                echo "Error inserting data: " . $e->getMessage();
             }
         } else {
-            echo "Hubo un error al subir la imagen.";
+            echo "There was an error uploading the image.";
         }
     } else {
-        echo "Solo se permiten archivos de tipo JPG, JPEG, PNG y GIF.";
+        echo "Only JPG, JPEG, PNG, and GIF files are allowed.";
     }
 
     $connection = null;
