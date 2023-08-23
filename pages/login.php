@@ -27,8 +27,7 @@
 
   <main class="form-signin w-100 m-auto">
     <form enctype="multipart/form-data" action="../php/validate_user" method="post">
-      <img class="container d-flex align-items-center justify-content-center" src="../assets/images/logo.png" alt=""
-        width="" height="" style="width: 130px;">
+     
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">

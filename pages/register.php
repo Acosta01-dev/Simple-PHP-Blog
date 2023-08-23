@@ -74,8 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     ?>
     <form enctype="multipart/form-data" action="../pages/register" method="post">
-      <img class="container d-flex align-items-center justify-content-center" src="../assets/images/logo.png" alt=""
-        width="" height="" style="width: 130px;">
+    
       <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 
       <div class="form-floating">

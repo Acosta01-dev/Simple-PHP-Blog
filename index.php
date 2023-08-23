@@ -87,49 +87,47 @@ $connection = null;
 </head>
 
 <body>
-    <!-- Responsive navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="./index"><svg xmlns="http://www.w3.org/2000/svg" width="31" height="31"
-                    fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23H6.375zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375v2.725z" />
-                    <path
-                        d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4h-8zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396H5.062z" />
-                </svg></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <?php
-                    if ($_SESSION['user_id']) {
-                        ?>
-                        <li class="nav-item"><a class="nav-link" href="./pages/admin">Admin</a></li>
+    <header>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+            <div class="container">
+                <a class="navbar-brand" href="./index"><svg xmlns="http://www.w3.org/2000/svg" width="31" height="31"
+                        fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23H6.375zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375v2.725z" />
+                        <path
+                            d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4h-8zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396H5.062z" />
+                    </svg></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <?php
-                    } else {
+                        if ($_SESSION['user_id']) {
+                            ?>
+                            <li class="nav-item"><a class="nav-link" href="./pages/admin">Admin</a></li>
+                            <?php
+                        } else {
+                            ?>
+                            <li class="nav-item"><a class="nav-link" href="./pages/register">Sign Up</a></li>
+                            <li class="nav-item"><a class="nav-link" href="./pages/login">Log In</a></li>
+                            <?php
+                        }
                         ?>
-                        <li class="nav-item"><a class="nav-link" href="./pages/register">Sign Up</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./pages/login">Log In</a></li>
-                        <?php
-                    }
-                    ?>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
-                </ul>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    <!-- Page header with logo and tagline-->
-    <header class="py-5 bg-light border-bottom mb-4">
-        <div class="container">
-            <div class="text-center my-5">
-                <h1 class="fw-bolder">Welcome to Blog Home!</h1>
-                <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
-            </div>
-        </div>
+        </nav>
     </header>
+    <div class='container mt-5 d-flex justify-content-center '>
+        <h1 class='fw-bold fst-italic'> Bootstrap Blog </h2>
+        <div class="divider my-4">tm</div> 
+    </div>
     <!-- Page content-->
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             <!-- Blog entries-->
             <div class="col-lg-8">
@@ -194,7 +192,7 @@ $connection = null;
                         ?>
                             <div class="card mb-4">
                                 <div class="card-image-container">
-                                    <a href="#!">
+                                    <a href="./pages/post?post_id=<?= $blogPosts[$i]['post_id'] ?>">
                                         <!-- The image within the card -->
                                         <div class="aspect-ratio-container">
                                             <img class="aspect-ratio-content"
@@ -299,19 +297,13 @@ $connection = null;
                         </div>
                     </div>
                 </div>
-                <!-- Side widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Side Widget</div>
-                    <div class="card-body">You can put anything you want inside of these side widgets. They are easy to
-                        use, and feature the Bootstrap 5 card component!</div>
-                </div>
             </div>
         </div>
     </div>
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Bootstrap Blog 2023</p>
         </div>
     </footer>
     <!-- Bootstrap core JS-->
