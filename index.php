@@ -14,13 +14,13 @@ try {
     $offset = ($current_page - 1) * RESULTS_PER_PAGE;
 
     // Main query to get all results without filtering
-    $sql = 'SELECT * FROM post';
+    $sql = 'SELECT * FROM post ORDER BY date DESC';
 
     if (isset($_GET['category'])) {
         $category = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_STRING);
 
         // Specific query for the selected category
-        $sql = 'SELECT * FROM post WHERE category = :category';
+        $sql = 'SELECT * FROM post WHERE category = :category ORDER BY date DESC';
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(':category', $category, PDO::PARAM_STR);
         $stmt->execute();
@@ -31,7 +31,7 @@ try {
         $escaped_search_term = '%' . $search_term . '%'; // No need to use $connection->quote() here
 
         // Specific query for the performed search
-        $sql = "SELECT * FROM post WHERE title LIKE :search_term OR description LIKE :search_term";
+        $sql = "SELECT * FROM post WHERE title LIKE :search_term OR description LIKE :search_term ORDER BY date DESC";
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(':search_term', $escaped_search_term, PDO::PARAM_STR);
         $stmt->execute();
@@ -76,7 +76,7 @@ $connection = null;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Blog Home - Start Bootstrap Template</title>
+    <title>A Blog on Privacy and Securitye</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -91,13 +91,14 @@ $connection = null;
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
             <div class="container">
-                <a class="navbar-brand" href="./index"><svg xmlns="http://www.w3.org/2000/svg" width="31" height="31"
-                        fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16">
+                <a class="navbar-brand" href="./index">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-globe-americas m-1" viewBox="0 0 16 16">
                         <path
-                            d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23H6.375zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375v2.725z" />
-                        <path
-                            d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4h-8zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396H5.062z" />
-                    </svg></a>
+                            d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484-.08.08-.162.158-.242.234-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z" />
+                    </svg>
+                    CodingCrafters.com
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -107,12 +108,14 @@ $connection = null;
                         <?php
                         if ($_SESSION['user_id']) {
                             ?>
-                            <li class="nav-item"><a class="nav-link" href="./pages/admin">Admin</a></li>
+                            <li class="nav-item"><a class="nav-link" href="./pages/admin">User Panel</a></li>
                             <?php
                         } else {
                             ?>
+                            <!---
                             <li class="nav-item"><a class="nav-link" href="./pages/register">Sign Up</a></li>
                             <li class="nav-item"><a class="nav-link" href="./pages/login">Log In</a></li>
+                            -->
                             <?php
                         }
                         ?>
@@ -123,8 +126,8 @@ $connection = null;
         </nav>
     </header>
     <div class='container mt-5 d-flex justify-content-center '>
-        <h1 class='fw-bold fst-italic'> Bootstrap Blog </h2>
-        <div class="divider my-4">tm</div> 
+        <h1 class='fw-bold fst-italic'>Exploring the Web Development Frontier</h2>
+            <div class="divider my-4">tm</div>
     </div>
     <!-- Page content-->
     <div class="container mt-5">
@@ -245,7 +248,9 @@ $connection = null;
                                         <?= $p; ?>
                                     </span></li>
                             <?php else: ?>
-                                <li class="page-item"><a class="page-link" href="?page=<?= $p; ?>"><?= $p; ?></a></li>
+                                <li class="page-item"><a class="page-link" href="?page=<?= $p; ?>">
+                                        <?= $p; ?>
+                                    </a></li>
                             <?php endif; ?>
                         <?php endfor; ?>
 
@@ -303,7 +308,7 @@ $connection = null;
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Bootstrap Blog 2023</p>
+            <p class="m-0 text-center text-white">Copyright &copy; CodingCrafters 2023</p>
         </div>
     </footer>
     <!-- Bootstrap core JS-->

@@ -1,4 +1,16 @@
 <?php
+session_start();
+require_once '../php/db_connect.php';
+
+$user_id = isset($_SESSION['admin']) ? $_SESSION['admin'] : null;
+
+if (!$user_id) {
+  header('location:../index');
+}
+?>
+
+<?php
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   require_once '../php/db_connect.php';
   $username = $_POST['username'];
@@ -11,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $userCount = $stmt->fetchColumn();
 
   if ($userCount > 0) {
-   
+
     header('location: ../pages/register?error');
 
   } else {
@@ -39,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.112.5">
-  <title>Signin Template · Bootstrap v5.3</title>
+  <title>Register a new user</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
@@ -48,6 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link href="../assets/css/styles.css" rel="stylesheet" />
   <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
   <!-- Custom styles for this template -->
   <link href="sign-in.css" rel="stylesheet">
 </head>
@@ -74,8 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     ?>
     <form enctype="multipart/form-data" action="../pages/register" method="post">
-    
-      <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+      <h1 class="h3 mb-3 fw-normal">Please sign up a new user</h1>
 
       <div class="form-floating">
         <input type="text" name="username" class="form-control" id="user" placeholder="Name" required>
@@ -88,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       </div>
 
       <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
-      <a href="../" class="mt-1 btn w-100 py-2">Go Back</a>
+      <a href="../pages/admin" class="mt-1 btn w-100 py-2">Go Back</a>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
     </form>
   </main>

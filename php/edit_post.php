@@ -1,19 +1,23 @@
 <?php
+// Start a session to access user data
 session_start();
 
+// Get the user ID from the session or set it to null
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
+// Redirect to the index page if the user is not logged in
 if (!$user_id) {
     header('location:../index');
 }
 
+// Include the database connection
 require_once "../php/db_connect.php";
 
-// Validate and sanitize post_id
+// Validate and sanitize the post_id
 if (isset($_GET['post_id']) && is_numeric($_GET['post_id'])) {
     $postId = $_GET['post_id'];
 } else {
-    // Handle the error : TODO
+    // Handle the error: TODO
 }
 
 // Check if the form is submitted
@@ -53,15 +57,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    // Only 1 post must be featured
+    // Ensure only 1 post can be featured
     if ($featured) {
         $resetFeaturedSql = "UPDATE post SET featured = 0";
         $resetFeaturedStmt = $connection->prepare($resetFeaturedSql);
         $resetFeaturedStmt->execute();
     }
 
-    // Update database
-    $sql = "UPDATE post SET title = :title, description = :description, content = :content, category = :category, featured = :featured WHERE post_id = :post_id AND user_id = :user_id";
+    // Update the database
+    $is_admin = isset($_SESSION['admin']) ? $_SESSION['admin'] : null;
+    if (isset($is_admin)) {
+        $sql = "UPDATE post SET title = :title, description = :description, content = :content, category = :category, featured = :featured WHERE post_id = :post_id";
+    } else {
+        $sql = "UPDATE post SET title = :title, description = :description, content = :content, category = :category, featured = :featured WHERE post_id = :post_id AND user_id = :user_id";
+    }
+
     $stmt = $connection->prepare($sql);
     $stmt->bindValue(':title', $title, PDO::PARAM_STR);
     $stmt->bindValue(':description', $description, PDO::PARAM_STR);
@@ -69,7 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bindValue(':category', $category, PDO::PARAM_STR);
     $stmt->bindValue(':featured', $featured, PDO::PARAM_INT);
     $stmt->bindValue(':post_id', $postId, PDO::PARAM_INT);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+
+    if (!isset($is_admin)) {    // Avoid error "number of bound variables does not match number of tokens in"
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    }
 
     if ($stmt->execute()) {
         // Successfully updated the blog post
@@ -84,10 +97,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 // Fetch the blog post data for pre-filling the form
-$sql = "SELECT * FROM post WHERE post_id = :post_id AND user_id = :user_id";
+$is_admin = isset($_SESSION['admin']) ? $_SESSION['admin'] : null;
+if (isset($is_admin)) {
+    $sql = "SELECT * FROM post WHERE post_id = :post_id";
+} else {
+    $sql = "SELECT * FROM post WHERE post_id = :post_id AND user_id = :user_id";
+}
+
+
 $stmt = $connection->prepare($sql);
+if (!isset($is_admin)) {    // Avoid error "number of bound variables does not match number of tokens in"
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+}
+
 $stmt->bindValue(':post_id', $postId, PDO::PARAM_INT);
-$stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 
 $blogPost = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -102,13 +125,12 @@ $blogPost = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Bootstrap 5 Form with Picture Upload</title>
+    <title>Edit a post</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -145,17 +167,17 @@ $blogPost = $stmt->fetch(PDO::FETCH_ASSOC);
                     name="content"><?= $blogPost['content'] ?></textarea>
             </div>
             <div class="mb-3">
-    <label for="category" class="form-label">Category</label>
-    <select class="form-control" id="category" name="category">
-        <option value="Web Design" <?php if ($blogPost['category'] === 'Web Design') echo 'selected'; ?>>Web Design</option>
-        <option value="HTML" <?php if ($blogPost['category'] === 'HTML') echo 'selected'; ?>>HTML</option>
-        <option value="Freebies" <?php if ($blogPost['category'] === 'Freebies') echo 'selected'; ?>>Freebies</option>
-        <option value="JavaScript" <?php if ($blogPost['category'] === 'JavaScript') echo 'selected'; ?>>JavaScript</option>
-        <option value="CSS" <?php if ($blogPost['category'] === 'CSS') echo 'selected'; ?>>CSS</option>
-        <option value="Tutorials" <?php if ($blogPost['category'] === 'Tutorials') echo 'selected'; ?>>Tutorials</option>
-    </select>
-</div>
-
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="Web Design" <?php if ($blogPost['category'] === 'Web Design') echo 'selected'; ?>>Web
+                        Design</option>
+                    <option value="HTML" <?php if ($blogPost['category'] === 'HTML') echo 'selected'; ?>>HTML</option>
+                    <option value="Freebies" <?php if ($blogPost['category'] === 'Freebies') echo 'selected'; ?>>Freebies</option>
+                    <option value="JavaScript" <?php if ($blogPost['category'] === 'JavaScript') echo 'selected'; ?>>JavaScript</option>
+                    <option value="CSS" <?php if ($blogPost['category'] === 'CSS') echo 'selected'; ?>>CSS</option>
+                    <option value="Tutorials" <?php if ($blogPost['category'] === 'Tutorials') echo 'selected'; ?>>Tutorials</option>
+                </select>
+            </div>
             <div class="mb-3">
                 <label for="currentImage" class="form-label">Current Image</label>
                 <input type="text" class="form-control" id="currentImage" name="currentImage"
@@ -177,5 +199,4 @@ $blogPost = $stmt->fetch(PDO::FETCH_ASSOC);
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

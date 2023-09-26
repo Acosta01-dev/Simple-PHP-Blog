@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.112.5">
-  <title>Signin Template · Bootstrap v5.3</title>
+  <title>Login</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
@@ -18,6 +18,8 @@
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link href="../assets/css/styles.css" rel="stylesheet" />
   <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
   <!-- Custom styles for this template -->
   <link href="sign-in.css" rel="stylesheet">
 </head>
@@ -27,9 +29,9 @@
 
   <main class="form-signin w-100 m-auto">
     <form enctype="multipart/form-data" action="../php/validate_user" method="post">
-     
-      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      <p style='background:red '> Dev. note: Admin account is Name: admin, Password: 123</p>
       <div class="form-floating">
         <input type="text" name="user" class="form-control" id="user" placeholder="Name" required>
         <label for="user">Name</label>
