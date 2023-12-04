@@ -17,3 +17,4 @@ Welcome, this is a basic blogging platform created with PHP.
 ## Installation
 
 **Clone the Repository:** Start by cloning this repository to your web server or hosting environment. The database is included in the files.
+![blog](https://github.com/Acosta01-dev/Simple-PHP-Blog/assets/79601880/9a62e669-b3af-440b-83f3-c80ddb11c296)
